@@ -48,6 +48,8 @@
         }
         this.options.paginationPath = serverSideOpts.path;
         this.options.resultHandlerFn = serverSideOpts.loader;
+        this.options.fResponseHook = serverSideOpts.fResponseHook;
+        this.options.fQueryStringHook = serverSideOpts.fQueryStringHook;
         this.initWithServerSidePagination();
       } else {
         this.initWithClientSidePagination(rows);
@@ -332,6 +334,9 @@
           url = _this.options.paginationPath + "?" + (((function() {
             var results1;
             results1 = [];
+            if(_this.options.fQueryStringHook){
+              data = _this.options.fQueryStringHook(data);
+            }
             for (key in data) {
               val = data[key];
               results1.push((encodeURIComponent(key)) + "=" + (encodeURIComponent(val)));
@@ -394,6 +399,9 @@
             _this.filtering(false);
             if (err) {
               return console.log(err);
+            }
+            if(_this.options.fResponseHook){
+              response = _this.options.fResponseHook(response);
             }
             total = response.total, results = response.results;
             _this.numFilteredRows(total);
@@ -498,7 +506,11 @@
             if (err) {
               return console.log(err);
             }
-            total = response.total, results = response.results;
+            if(_this.options.fResponseHook){
+              response = _this.options.fResponseHook(response);
+            }
+            total = response.total,
+            results = response.results;
             _this.numFilteredRows(total);
             return _this.pagedRows(results.map(_this.options.resultHandlerFn));
           });
