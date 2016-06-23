@@ -3,7 +3,7 @@
 Knockout DataTable is a flexible and reusable Knockout.js view model for data tables.
 
 ## Fork version enhance sever side pager,modify js and min.js,not coffee
-
+```
 new DataTable({
     perPage: 10,
     serverSidePagination: {
@@ -33,7 +33,7 @@ new DataTable({
         }
     }
 });
-
+```
 ## Demo
 
 Check out the [demo](http://rawgit.com/immense/knockout-datatable/master/demo.html) to get a quick idea of how it works and how to use it.
