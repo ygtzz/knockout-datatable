@@ -2,6 +2,38 @@
 
 Knockout DataTable is a flexible and reusable Knockout.js view model for data tables.
 
+## Fork version enhance sever side pager,modify js and min.js,not coffee
+
+new DataTable({
+    perPage: 10,
+    serverSidePagination: {
+        enabled: true,
+        path: url,
+        fQueryStringHook:function(query){
+            //modify query string param
+            var oQuery = {
+                page_no:query.page,
+                page_count:query.perPage
+            };
+            if(query.filter){
+                oQuery.q = query.filter;
+            }
+            return oQuery;
+        },
+        fResponseHook:function(res){
+            //modify ajax response data
+            return {
+                total:res.total_counts,
+                results:res.data
+            }
+        },
+        loader: function(item){
+            //modify item
+            return item;
+        }
+    }
+});
+
 ## Demo
 
 Check out the [demo](http://rawgit.com/immense/knockout-datatable/master/demo.html) to get a quick idea of how it works and how to use it.
